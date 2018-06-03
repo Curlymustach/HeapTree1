@@ -31,6 +31,13 @@ namespace HeapTree1
             return (i - 1) / 2;
         }
 
+        public void Swap(int i, int j)
+        {
+            T temp = tree[i];
+            tree[i] = tree[j];
+            tree[j] = temp;
+        }
+
         public void Insert(T value)
         {
             if (index == tree.Length)
@@ -38,7 +45,7 @@ namespace HeapTree1
                 Console.WriteLine("Heap Full.");
             }
             else
-            {
+            {  
                 tree[index] = value;
                 HeapifyUp(index);
                 index++;
@@ -47,14 +54,51 @@ namespace HeapTree1
 
         public void HeapifyUp(int i)
         {
-            while (tree[i].CompareTo(tree[Parent(i)]) > 0)
+            if (i == 0 || tree[i].CompareTo(tree[Parent(i)]) < 0)
             {
-                T temp = tree[i];
-                tree[i] = tree[Parent(i)];
-                tree[Parent(i)] = temp;
-                //i = ?
+                return;
             }
+
+            Swap(i, Parent(i));
+            HeapifyUp(Parent(i));
         }
+
+        public T pop()
+        {
+            T value = tree[0];
+            tree[0] = tree[index - 1];
+            index--;
+            HeapifyDown(0);
+            return value;
+        }
+
+        public void HeapifyDown(int i)
+        {
+            int master = i;
+            int left = Left(i);
+            int right = Right(i);
+
+            
+            if(left < index && tree[master].CompareTo(tree[left]) < 0)
+            {
+                master = left;
+            }
+            if(right < index && tree[master].CompareTo(tree[right]) < 0)
+            {
+                master = right;
+            }
+
+            if(master == i)
+            {
+                return;
+            }
+
+            Swap(i, master);
+            HeapifyDown(master);
+        }
+
+
+
 
         public void Print()
         {

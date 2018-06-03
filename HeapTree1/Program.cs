@@ -16,6 +16,9 @@ namespace HeapTree1
                 tree.Insert(i);
             }
             tree.Print();
+            tree.pop();
+            Console.WriteLine( "\n" + tree.pop() + "\n");
+            tree.Print();
             Console.ReadKey();
         }
     }
