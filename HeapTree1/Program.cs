@@ -16,8 +16,10 @@ namespace HeapTree1
                 tree.Insert(i);
             }
             tree.Print();
-            tree.pop();
+            //tree.pop();
             Console.WriteLine( "\n" + tree.pop() + "\n");
+            tree.Print();
+            Console.WriteLine("\n" + tree.pop() + "\n");
             tree.Print();
             Console.ReadKey();
         }

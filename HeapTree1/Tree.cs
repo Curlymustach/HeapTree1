@@ -9,7 +9,7 @@ namespace HeapTree1
     class Tree<T> where T : IComparable<T>
     {
         T[] tree;
-        int index = 0;
+        int maxIndex = 0;
 
         public Tree(int size)
         {
@@ -40,15 +40,15 @@ namespace HeapTree1
 
         public void Insert(T value)
         {
-            if (index == tree.Length)
+            if (maxIndex == tree.Length)
             {
-                Console.WriteLine("Heap Full.");
+                Resize(tree.Length * 2);
             }
             else
             {  
-                tree[index] = value;
-                HeapifyUp(index);
-                index++;
+                tree[maxIndex] = value;
+                HeapifyUp(maxIndex);
+                maxIndex++;
             }
         }
 
@@ -66,9 +66,10 @@ namespace HeapTree1
         public T pop()
         {
             T value = tree[0];
-            tree[0] = tree[index - 1];
-            index--;
+            tree[0] = tree[maxIndex - 1];
+            maxIndex--;
             HeapifyDown(0);
+            Resize(maxIndex);
             return value;
         }
 
@@ -79,15 +80,14 @@ namespace HeapTree1
             int right = Right(i);
 
             
-            if(left < index && tree[master].CompareTo(tree[left]) < 0)
+            if(left <= maxIndex && tree[master].CompareTo(tree[left]) < 0)
             {
                 master = left;
             }
-            if(right < index && tree[master].CompareTo(tree[right]) < 0)
+            if(right <= maxIndex && tree[master].CompareTo(tree[right]) < 0)
             {
                 master = right;
             }
-
             if(master == i)
             {
                 return;
@@ -97,7 +97,15 @@ namespace HeapTree1
             HeapifyDown(master);
         }
 
-
+        public void Resize(int size)
+        {
+            T[] tempHeap = new T[size];
+            for(int i = 0; i < maxIndex; i++)
+            {
+                tempHeap[i] = tree[i];
+            }
+            tree = tempHeap;
+        }
 
 
         public void Print()
